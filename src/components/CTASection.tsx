@@ -1,18 +1,35 @@
-
 import React from "react";
 import { Sparkles } from "lucide-react";
+import CloudOverlay from "./CloudOverlay";
 
 const CTASection = () => {
   return (
-    <section className="mystic-section bg-mystic-dark py-20">
-      <div className="z-10 text-center max-w-3xl">
-        <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Begin Your Mystical Journey</h2>
+    <section className="mystic-section bg-mystic-dark py-20 relative min-h-screen flex items-center justify-center">
+      {/* Background Video */}
+      <div className="absolute inset-0 overflow-hidden">
+        <video
+          className="absolute w-full h-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+        >
+          <source src="/mystic-bg1.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-b from-mystic-dark/70 to-mystic-dark/40"></div>
+      </div>
+
+      {/* Cloud Overlays */}
+      <CloudOverlay position="top" />
+
+      <div className="relative z-10 text-center max-w-3xl">
+        <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 mystic-text">Begin Your Mystical Journey</h2>
         <p className="text-lg text-mystic-light/80 mb-10">
           The cards have whispered their initial secrets, but there's much more to discover. Ready to dive deeper into the mystical world of tarot?
         </p>
         
         <div className="animate-float">
-          <button className="bg-gradient-to-r from-mystic-vibrant to-mystic-magenta text-white px-8 py-4 rounded-full font-medium hover:shadow-lg hover:shadow-mystic-magenta/30 transition-all duration-300 flex items-center justify-center gap-2 mx-auto">
+          <button className="mystic-button flex items-center justify-center gap-2 mx-auto">
             <Sparkles className="h-5 w-5" />
             <span>Play Full Tarot Game</span>
           </button>

@@ -10,6 +10,7 @@ interface TarotCardProps {
   onClick: () => void;
   isFlipped: boolean;
   isActive: boolean;
+  cardType: "athena" | "devil" | "lovers";
 }
 
 const TarotCard: React.FC<TarotCardProps> = ({
@@ -19,10 +20,54 @@ const TarotCard: React.FC<TarotCardProps> = ({
   prediction,
   onClick,
   isFlipped,
-  isActive
+  isActive,
+  cardType
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [showPlayButton, setShowPlayButton] = useState(false);
+
+  const getCardColors = () => {
+    switch (cardType) {
+      case "athena":
+        return {
+          border: 'border-amber-400',
+          glow: 'rgba(255, 215, 0, 0.3)',
+          gradient: 'from-amber-900 to-amber-800',
+          text: 'text-amber-400',
+          highlight: 'bg-amber-400/20',
+          button: 'bg-amber-400 hover:bg-amber-500 text-amber-950'
+        };
+      case "devil":
+        return {
+          border: 'border-red-600',
+          glow: 'rgba(220, 38, 38, 0.3)',
+          gradient: 'from-red-950 to-red-900',
+          text: 'text-red-500',
+          highlight: 'bg-red-500/20',
+          button: 'bg-red-600 hover:bg-red-700 text-white'
+        };
+      case "lovers":
+        return {
+          border: 'border-pink-400',
+          glow: 'rgba(244, 114, 182, 0.3)',
+          gradient: 'from-pink-900 to-pink-800',
+          text: 'text-pink-400',
+          highlight: 'bg-pink-400/20',
+          button: 'bg-pink-400 hover:bg-pink-500 text-pink-950'
+        };
+      default:
+        return {
+          border: 'border-mystic-gold',
+          glow: 'rgba(255, 215, 0, 0.3)',
+          gradient: 'from-mystic-dark to-mystic-secondary',
+          text: 'text-mystic-gold',
+          highlight: 'bg-mystic-gold/20',
+          button: 'bg-mystic-gold hover:bg-mystic-gold/90 text-mystic-dark'
+        };
+    }
+  };
+
+  const colors = getCardColors();
 
   useEffect(() => {
     if (isFlipped) {
@@ -58,10 +103,15 @@ const TarotCard: React.FC<TarotCardProps> = ({
         transition={{ duration: 0.7, ease: "easeInOut" }}
       >
         {/* Card Front */}
-        <Card className={`absolute w-full h-full backface-hidden tarot-card ${!isFlipped ? 'card-glow border-mystic-primary/30' : ''} bg-gradient-to-b from-mystic-dark to-mystic-secondary overflow-hidden`}>
+        <Card 
+          className={`absolute w-full h-full backface-hidden tarot-card ${!isFlipped ? `card-glow ${colors.border}` : ''} bg-gradient-to-b ${colors.gradient} overflow-hidden`}
+          style={{
+            '--card-glow': colors.glow
+          } as React.CSSProperties}
+        >
           <div className="p-4 h-full flex flex-col items-center justify-center text-center">
             <motion.h3 
-              className="text-xl font-bold text-mystic-light mb-2"
+              className={`text-xl font-bold ${colors.text} mb-2`}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
@@ -80,7 +130,7 @@ const TarotCard: React.FC<TarotCardProps> = ({
               />
               <div className="absolute inset-0 bg-gradient-to-t from-mystic-dark/80 to-transparent"></div>
               <motion.div 
-                className="absolute inset-0 bg-mystic-gold/20"
+                className={`absolute inset-0 ${colors.highlight}`}
                 animate={{ opacity: isHovered && !isActive ? 1 : 0 }}
                 transition={{ duration: 0.3 }}
               />
@@ -106,10 +156,27 @@ const TarotCard: React.FC<TarotCardProps> = ({
         </Card>
         
         {/* Card Back */}
-        <Card className={`absolute w-full h-full backface-hidden rotate-y-180 ${isFlipped ? 'card-glow border-mystic-gold' : ''} bg-gradient-to-b from-mystic-dark/95 to-mystic-secondary overflow-hidden`}>
-          <div className={`p-6 h-full flex flex-col items-center justify-center text-center ${isActive ? 'max-w-4xl mx-auto' : ''}`}>
+        <Card 
+          className={`absolute w-full h-full backface-hidden rotate-y-180 ${isFlipped ? `card-glow ${colors.border}` : ''} overflow-hidden`}
+          style={{
+            '--card-glow': colors.glow
+          } as React.CSSProperties}
+        >
+          {/* Background Image */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ 
+              backgroundImage: `url(${image})`,
+              opacity: 0.4
+            }} 
+          />
+          
+          {/* Gradient Overlay for better text readability */}
+          <div className={`absolute inset-0 bg-gradient-to-b ${colors.gradient} opacity-80`} />
+
+          <div className={`relative z-10 p-6 h-full flex flex-col items-center justify-center text-center ${isActive ? 'max-w-4xl mx-auto' : ''}`}>
             <motion.h3 
-              className="text-xl md:text-3xl font-bold text-mystic-gold mb-4"
+              className={`text-xl md:text-3xl font-bold ${colors.text} mb-4 drop-shadow-lg`}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
@@ -117,13 +184,13 @@ const TarotCard: React.FC<TarotCardProps> = ({
               {title} Revealed
             </motion.h3>
             <motion.div 
-              className="my-4 w-12 h-1 bg-mystic-gold rounded-full opacity-50"
+              className={`my-4 w-12 h-1 ${colors.highlight} rounded-full shadow-glow`}
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             />
             <motion.p 
-              className="text-mystic-light italic text-lg md:text-xl"
+              className="text-mystic-light italic text-lg md:text-xl whitespace-pre-line drop-shadow-lg"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.5 }}
@@ -133,7 +200,7 @@ const TarotCard: React.FC<TarotCardProps> = ({
             
             {showPlayButton && isActive && (
               <motion.button
-                className="mt-8 px-8 py-3 bg-mystic-gold text-mystic-dark font-bold rounded-full hover:bg-mystic-gold/90 transition-colors"
+                className={`mt-8 px-8 py-3 font-bold rounded-full transition-colors ${colors.button} shadow-xl`}
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 whileHover={{ scale: 1.05 }}
@@ -145,7 +212,7 @@ const TarotCard: React.FC<TarotCardProps> = ({
             
             {!isActive && (
               <motion.div 
-                className="mt-6 text-xs text-mystic-light/60"
+                className="mt-6 text-xs text-mystic-light/60 drop-shadow"
                 animate={{ opacity: isHovered ? 1 : 0.6 }}
                 transition={{ duration: 0.3 }}
               >

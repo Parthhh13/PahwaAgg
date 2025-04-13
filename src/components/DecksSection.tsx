@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TarotCard from "./TarotCard";
 import { motion, AnimatePresence } from "framer-motion";
+import CloudOverlay from "./CloudOverlay";
 
 const DecksSection = () => {
   const cards = [
@@ -8,22 +9,22 @@ const DecksSection = () => {
       id: "athena",
       title: "Athena's Wisdom",
       image: "/cards/athena.jpg",
-      description: "Seek divine wisdom and strategic guidance for your path ahead.",
-      prediction: "The owl of wisdom watches over you. Your intellectual pursuits will be rewarded, and a strategic decision you make in the near future will lead to unexpected success. Trust in your wisdom and let it guide your choices."
+      description: "Step into your power — see where ambition and fate will take you.",
+      prediction: "Mmm, ambition. I see sharp turns ahead — opportunity, yes, but also choices that carry weight. This card speaks of growth, of something greater calling your name. But you'll have to work for it. No shortcuts here.\n\nThe path is opening. Are you ready to walk it?"
     },
     {
       id: "devil",
       title: "The Devil's Game",
       image: "/cards/devil.jpg",
-      description: "Face your shadows and overcome your inner demons.",
-      prediction: "Dark forces are at play, but they bring opportunity for growth. A challenge that seems insurmountable will become your greatest teacher. Break free from self-imposed chains and reclaim your power."
+      description: "Embrace the unknown — face your inner demons and hidden desires.",
+      prediction: "Interesting… this one doesn't show up for everyone. The Devil is temptation, yes, but also truth. The parts of you you've hidden? They're ready to speak. You'll be tested — by power, by pleasure, by your own shadow. Are you ready to face yourself?\n\nEnter if you dare — but know, not everyone walks out the same."
     },
     {
       id: "lovers",
       title: "The Lovers' Dance",
       image: "/cards/lovers.jpg",
-      description: "Discover the harmony of divine union and perfect balance.",
-      prediction: "A significant choice lies before you in matters of the heart. Trust in the cosmic dance of fate, for it leads to a union that transcends ordinary bonds. Love will guide your way through uncertainty."
+      description: "Unlock the secrets of your heart — discover the love that awaits you.",
+      prediction: "Ah, the card of the heart... This one speaks of connection — deep, magnetic, sometimes messy. Love is near, but it won't come easy. You'll have to choose: guard your heart, or open it wide. Someone's energy lingers around you… do you feel it?\n\nTap in. Let love lead the way."
     }
   ];
 
@@ -39,6 +40,18 @@ const DecksSection = () => {
 
   const [activeDeck, setActiveDeck] = useState<string | null>(null);
   const activeCard = activeDeck ? cards.find(card => card.id === activeDeck) : null;
+
+  // Prevent scrolling when a card is active
+  useEffect(() => {
+    if (activeDeck) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [activeDeck]);
 
   const handleCardFlip = (type: "athena" | "devil" | "lovers") => {
     setFlippedCards(prev => ({
@@ -57,7 +70,7 @@ const DecksSection = () => {
   };
 
   return (
-    <section id="decks-section" className="mystic-section bg-mystic-gradient relative overflow-hidden min-h-screen">
+    <section id="decks-section" className={`mystic-section bg-mystic-gradient relative overflow-hidden min-h-screen ${activeDeck ? 'fixed inset-0 z-50' : ''}`}>
       {/* Background Video or Card Image */}
       <div className="absolute inset-0 overflow-hidden">
         {activeDeck ? (
@@ -67,13 +80,12 @@ const DecksSection = () => {
             className="absolute inset-0"
           >
             <div 
-              className="absolute inset-0 bg-cover bg-center bg-no-repeat blur-sm"
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
               style={{ 
                 backgroundImage: `url(${activeCard?.image})`,
-                filter: 'brightness(0.3) blur(8px)'
+                opacity: 0.3
               }}
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-mystic-dark/80 to-mystic-dark/60"></div>
           </motion.div>
         ) : (
           <>
@@ -90,6 +102,14 @@ const DecksSection = () => {
           </>
         )}
       </div>
+
+      {/* Cloud Overlays */}
+      {!activeDeck && (
+        <>
+          <CloudOverlay position="top" />
+          <CloudOverlay position="bottom" />
+        </>
+      )}
 
       <div className="relative z-10 container mx-auto px-4 py-16">
         <AnimatePresence>
@@ -113,7 +133,7 @@ const DecksSection = () => {
         <AnimatePresence>
           {activeDeck && (
             <motion.button
-              className="fixed top-8 left-8 z-50 mystic-button-secondary"
+              className="fixed top-8 left-8 z-[60] mystic-button-secondary"
               onClick={handleBack}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -153,6 +173,7 @@ const DecksSection = () => {
                 onClick={() => handleCardFlip(card.id as "athena" | "devil" | "lovers")}
                 isFlipped={flippedCards[card.id as "athena" | "devil" | "lovers"]}
                 isActive={activeDeck === card.id}
+                cardType={card.id as "athena" | "devil" | "lovers"}
               />
             </motion.div>
           ))}
