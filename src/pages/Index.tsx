@@ -1,9 +1,8 @@
-
 import React, { useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import DecksSection from "@/components/DecksSection";
-import CTASection from "@/components/CTASection";
+import FinalSection from "@/components/FinalSection";
 import Footer from "@/components/Footer";
 
 const Index = () => {
@@ -44,7 +43,7 @@ const Index = () => {
       <main>
         <HeroSection />
         <DecksSection />
-        <CTASection />
+        <FinalSection />
       </main>
       
       <Footer />

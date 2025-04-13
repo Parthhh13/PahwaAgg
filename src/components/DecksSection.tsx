@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import TarotCard from "./TarotCard";
 import { motion, AnimatePresence } from "framer-motion";
 import CloudOverlay from "./CloudOverlay";
+import ComingSoonPopup from "./ComingSoonPopup";
 
 const DecksSection = () => {
   const cards = [
@@ -39,6 +40,7 @@ const DecksSection = () => {
   });
 
   const [activeDeck, setActiveDeck] = useState<string | null>(null);
+  const [showComingSoon, setShowComingSoon] = useState(false);
   const activeCard = activeDeck ? cards.find(card => card.id === activeDeck) : null;
 
   // Prevent scrolling when a card is active
@@ -171,6 +173,7 @@ const DecksSection = () => {
                 description={card.description}
                 prediction={card.prediction}
                 onClick={() => handleCardFlip(card.id as "athena" | "devil" | "lovers")}
+                onPlayGame={() => setShowComingSoon(true)}
                 isFlipped={flippedCards[card.id as "athena" | "devil" | "lovers"]}
                 isActive={activeDeck === card.id}
                 cardType={card.id as "athena" | "devil" | "lovers"}
@@ -179,6 +182,12 @@ const DecksSection = () => {
           ))}
         </motion.div>
       </div>
+
+      {/* Coming Soon Popup */}
+      <ComingSoonPopup 
+        isOpen={showComingSoon} 
+        onClose={() => setShowComingSoon(false)} 
+      />
     </section>
   );
 };

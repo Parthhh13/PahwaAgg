@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import CloudOverlay from './CloudOverlay';
+import SignInPopup from './SignInPopup';
 
 const HeroSection = () => {
   const [showContent, setShowContent] = useState(false);
+  const [showSignIn, setShowSignIn] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -37,6 +39,16 @@ const HeroSection = () => {
 
       {/* Cloud Overlays */}
       <CloudOverlay position="bottom" />
+
+      {/* Sign In Button */}
+      <div className="absolute top-4 left-0 right-0 flex justify-center z-50">
+        <button
+          onClick={() => setShowSignIn(true)}
+          className="px-3 py-1.5 text-sm bg-mystic-dark/30 hover:bg-mystic-dark/50 text-mystic-light/90 border border-mystic-light/10 rounded-md transition-colors"
+        >
+          Sign In
+        </button>
+      </div>
 
       <AnimatePresence>
         {showContent && (
@@ -85,6 +97,12 @@ const HeroSection = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Sign In Popup */}
+      <SignInPopup 
+        isOpen={showSignIn} 
+        onClose={() => setShowSignIn(false)} 
+      />
     </section>
   );
 };

@@ -8,6 +8,7 @@ interface TarotCardProps {
   description: string;
   prediction: string;
   onClick: () => void;
+  onPlayGame: () => void;
   isFlipped: boolean;
   isActive: boolean;
   cardType: "athena" | "devil" | "lovers";
@@ -19,6 +20,7 @@ const TarotCard: React.FC<TarotCardProps> = ({
   description,
   prediction,
   onClick,
+  onPlayGame,
   isFlipped,
   isActive,
   cardType
@@ -79,6 +81,11 @@ const TarotCard: React.FC<TarotCardProps> = ({
       setShowPlayButton(false);
     }
   }, [isFlipped]);
+
+  const handlePlayClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent card from flipping when clicking play
+    onPlayGame();
+  };
 
   return (
     <motion.div
@@ -197,28 +204,22 @@ const TarotCard: React.FC<TarotCardProps> = ({
             >
               {prediction}
             </motion.p>
-            
-            {showPlayButton && isActive && (
-              <motion.button
-                className={`mt-8 px-8 py-3 font-bold rounded-full transition-colors ${colors.button} shadow-xl`}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.3 }}
-              >
-                PLAY GAME
-              </motion.button>
-            )}
-            
-            {!isActive && (
-              <motion.div 
-                className="mt-6 text-xs text-mystic-light/60 drop-shadow"
-                animate={{ opacity: isHovered ? 1 : 0.6 }}
-                transition={{ duration: 0.3 }}
-              >
-                Click to flip back
-              </motion.div>
-            )}
+
+            <AnimatePresence>
+              {showPlayButton && (
+                <motion.button
+                  className={`mt-8 px-6 py-3 rounded-full font-semibold ${colors.button} shadow-lg transform transition-transform`}
+                  onClick={handlePlayClick}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  PLAY GAME
+                </motion.button>
+              )}
+            </AnimatePresence>
           </div>
         </Card>
       </motion.div>

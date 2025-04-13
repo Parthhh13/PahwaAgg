@@ -28,8 +28,8 @@ const CloudOverlay: React.FC<CloudOverlayProps> = ({ position }) => {
           <div 
             className="w-full h-full bg-gradient-to-b from-mystic-dark/90 via-mystic-dark/50 to-transparent"
             style={{
-              maskImage: 'url(/clouds.png)',
-              WebkitMaskImage: 'url(/clouds.png)',
+              maskImage: 'url(/overlays/clouds.png)',
+              WebkitMaskImage: 'url(/overlays/clouds.png)',
               maskSize: 'cover',
               WebkitMaskSize: 'cover',
             }}
@@ -53,8 +53,8 @@ const CloudOverlay: React.FC<CloudOverlayProps> = ({ position }) => {
           <div 
             className="w-full h-full bg-gradient-to-b from-mystic-dark/80 via-mystic-dark/40 to-transparent"
             style={{
-              maskImage: 'url(/clouds2.png)',
-              WebkitMaskImage: 'url(/clouds2.png)',
+              maskImage: 'url(/overlays/clouds2.png)',
+              WebkitMaskImage: 'url(/overlays/clouds2.png)',
               maskSize: 'cover',
               WebkitMaskSize: 'cover',
             }}
@@ -73,7 +73,7 @@ const CloudOverlay: React.FC<CloudOverlayProps> = ({ position }) => {
             ease: "easeInOut"
           }}
         >
-          <div className="w-full h-full bg-[url('/sparkles.png')] bg-repeat-x bg-contain opacity-30" />
+          <div className="w-full h-full bg-[url('/overlays/sparkles.png')] bg-repeat-x bg-contain opacity-30" />
         </motion.div>
       </div>
     </div>
