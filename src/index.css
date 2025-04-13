@@ -1,0 +1,138 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Noto+Serif:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 260 25% 12%;
+    --foreground: 246 30% 95%;
+
+    --card: 260 25% 15%;
+    --card-foreground: 246 30% 95%;
+
+    --popover: 260 25% 12%;
+    --popover-foreground: 246 30% 95%;
+
+    --primary: 255 85% 75%;
+    --primary-foreground: 260 25% 12%;
+
+    --secondary: 260 25% 25%;
+    --secondary-foreground: 246 30% 95%;
+
+    --muted: 260 25% 20%;
+    --muted-foreground: 246 30% 70%;
+
+    --accent: 270 70% 65%;
+    --accent-foreground: 246 30% 95%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 246 30% 95%;
+
+    --border: 260 25% 20%;
+    --input: 260 25% 20%;
+    --ring: 260 45% 60%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Noto Serif', serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cinzel', serif;
+  }
+}
+
+@layer components {
+  .tarot-card {
+    @apply relative rounded-lg overflow-hidden border transform transition-all duration-500 cursor-pointer;
+  }
+  
+  .tarot-card::before {
+    content: '';
+    @apply absolute inset-0 bg-card-gradient rounded-lg opacity-0 transition-opacity duration-300;
+  }
+  
+  .tarot-card:hover::before {
+    @apply opacity-100;
+  }
+  
+  .tarot-card:hover {
+    @apply scale-105 shadow-lg;
+  }
+  
+  .mystic-section {
+    @apply min-h-screen flex flex-col items-center justify-center py-20 px-4 relative overflow-hidden;
+  }
+  
+  .star {
+    @apply absolute rounded-full bg-white animate-sparkle;
+  }
+  
+  .card-glow {
+    @apply animate-glow;
+  }
+}
+
+/* Custom star background */
+.stars {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.card-hover-effect {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover-effect:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 25px rgba(155, 135, 245, 0.3);
+}
+
+/* Scroll Behavior */
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1A1F2C;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #6E59A5;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9b87f5;
+}

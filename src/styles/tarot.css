@@ -1,0 +1,111 @@
+/* Mystic Theme Colors */
+:root {
+  --mystic-dark: #0a0a1a;
+  --mystic-light: #f0f0ff;
+  --mystic-primary: #6b46c1;
+  --mystic-secondary: #2d3748;
+  --mystic-gold: #d4af37;
+}
+
+/* Card Glow Effect */
+.card-glow {
+  box-shadow: 0 0 20px rgba(107, 70, 193, 0.3),
+              0 0 40px rgba(107, 70, 193, 0.2),
+              0 0 60px rgba(107, 70, 193, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.card-glow:hover {
+  box-shadow: 0 0 30px rgba(107, 70, 193, 0.4),
+              0 0 50px rgba(107, 70, 193, 0.3),
+              0 0 70px rgba(107, 70, 193, 0.2);
+}
+
+/* Mystic Gradient Background */
+.bg-mystic-gradient {
+  background: linear-gradient(135deg, 
+    var(--mystic-dark) 0%,
+    var(--mystic-secondary) 50%,
+    var(--mystic-dark) 100%
+  );
+}
+
+/* Card Flip Animation */
+@keyframes cardFlip {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(180deg);
+  }
+}
+
+/* Mystic Text Styles */
+.mystic-text {
+  font-family: 'Cormorant Garamond', serif;
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+/* Section Styles */
+.mystic-section {
+  position: relative;
+  padding: 4rem 2rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Tarot Card Specific Styles */
+.tarot-card {
+  border: 2px solid var(--mystic-gold);
+  border-radius: 1rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.tarot-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg,
+    transparent 0%,
+    rgba(212, 175, 55, 0.1) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+/* Mystic Button Styles */
+.mystic-button {
+  background: linear-gradient(45deg,
+    var(--mystic-primary) 0%,
+    var(--mystic-secondary) 100%
+  );
+  border: 1px solid var(--mystic-gold);
+  color: var(--mystic-light);
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.mystic-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .mystic-section {
+    padding: 2rem 1rem;
+  }
+  
+  .tarot-card {
+    max-width: 100%;
+  }
+} 
